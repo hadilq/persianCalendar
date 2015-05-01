@@ -276,7 +276,6 @@ function JalaliDate(input1, input2, input3, input4, input5, input6, input7, inpu
     this.getDay = function(){
         // The fixed date 1 (Farvardin 1, 1 Jalali) is JOME.
         var fd = fixedDate;
-        if ( fd < 0 ) fd++; // to add zero day
         var dow = (fd - 3) % 7;
         if (dow < 0) dow += 7; // day of week range is 0-6
         return dow;
