@@ -1,5 +1,11 @@
-This is a javascript object that works as the same as ordinary javascript Date. For example
+This is a javascript object that works as the same as 
+ordinary javascript Date. For example
 
 d = new JalaliDate();
 
-will give persian date time of now.
+gives persian date time of now. Then d.getFullYear() would
+give this persian year and so on. As basic functions of this
+object doesn't have limitations, due to
+http://en.wikibooks.org/wiki/Persian_Calendar page, 
+this object doesn't have any limit as long as Kayyam rules 
+are correct!
