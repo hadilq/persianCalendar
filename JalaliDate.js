@@ -211,8 +211,8 @@ function JalaliDate(input1, input2, input3, input4, input5, input6, input7, inpu
             return true;
         var leapDays0 = realYear0*0.24219 + 0.025,  // 0.24219 ~ extra days of one year
             leapDays1 = realYear1*0.24219 + 0.025,
-            frac0 = Math.floor((leapDays0 - Math.floor(leapDays0))*1000),
-            frac1 = Math.floor((leapDays1 - Math.floor(leapDays1))*1000);
+            frac0 = getIntegerPart((leapDays0 - getIntegerPart(leapDays0))*1000),
+            frac1 = getIntegerPart((leapDays1 - getIntegerPart(leapDays1))*1000);
         if (frac0 <= 266 && frac1 > 266)
             return true;
         else
