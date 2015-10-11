@@ -136,6 +136,7 @@ function JalaliDate(input1, input2, input3, input4, input5, input6, input7, inpu
 
     /* To complete the calculation and fill up calendar details. */
     var completeByTime = function() {
+        //console.log("time: "+time);
         var timeInZone = time  - timezoneOffset * oneMinuteInMillis;
         fixedDate = Math.floor(timeInZone / oneDayInMillis) + EPOCH_OFFSET;
         //console.log("fixedDate: "+fixedDate);
@@ -167,22 +168,31 @@ function JalaliDate(input1, input2, input3, input4, input5, input6, input7, inpu
         if (Year >= BASE_YEAR && Year < BASE_YEAR + FIXED_DATES.length - 1)
             return FIXED_DATES[Year - BASE_YEAR];
         // The detail can be found in en.wikibook.com
+        //console.log("year: "+year);
         if (Year > 0)
             var realYear = Year - 1;
-        else if (year < 0)
+        else if (Year < 0)
             var realYear = Year;
         else
             return null;
+        //console.log("realYear: "+ realYear);
         var days = 1029983 * Math.floor( (realYear + 38) / 2820 ),
             cycle = (realYear + 38) % 2820;
         if (cycle < 0) cycle += 2820;
-        days += Math.floor((cycle - 38) * 365.24219) + 1;
+        days += getIntegerPart((cycle - 38) * 365.24219) + 1;
         if (cycle - 38 < 0) days--;
 
         var extra = cycle * 0.24219,
-            frac = Math.floor((extra - Math.floor(extra))*1000);
+            frac = getIntegerPart((extra - Math.floor(extra))*1000);
         if (isLeapYear(Year - 1) && frac <= 202) days++;
+        //console.log("days: "+days);
         return days;
+    }
+
+    /* To get integer part of a float */
+    var getIntegerPart = function(i){
+        if (i >= 0) return Math.floor(i);
+        else        return Math.floor(i) + 1;
     }
 
     /* To determine which year is a leap year. */
@@ -215,7 +225,9 @@ function JalaliDate(input1, input2, input3, input4, input5, input6, input7, inpu
             var testYear = Math.floor(Math.round((fd - 1) / 365.24219)) + 1;
         else
             var testYear = Math.floor(Math.round(fd / 365.24219));
+        //console.log("testYear: "+testYear);
         var far1 = getFixedDateFar1(testYear);
+        //console.log("far1: "+far1);
         if (far1 <= fd)
             return testYear;
         else
@@ -225,6 +237,14 @@ function JalaliDate(input1, input2, input3, input4, input5, input6, input7, inpu
     //
     // public variables
     //
+
+    this.getFixedDateFar1 = function() {
+        return getFixedDateFar1(year);
+    }
+
+    this.isLeapYear = function() {
+        return isLeapYear(year);
+    }
 
     /* The same as Date object */
     this.getFullYear = function(){
@@ -352,3 +372,5 @@ function JalaliDate(input1, input2, input3, input4, input5, input6, input7, inpu
     else
         JalaliDateNow();
 }
+
+module.exports = JalaliDate;
